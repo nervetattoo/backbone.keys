@@ -13,12 +13,18 @@ To add arrow navigation to your app simply do:
 
 ```javascript
 MyView = Backbone.View.extend({
-	keys : {
-		'onNavigate' : 'left right up down'
-	},
+    keys : {
+        'onAdd' : 'shift a',
+        'onNavigate' : ['left', 'right', 'up', 'down']
+    },
 
-	onNavigate : function(e) {
-	}
+    // The name variable is the name of the pressed key
+    // (a in this case)
+    onAdd : function(e, name) {
+    },
+
+    onNavigate : function(e, name) {
+    }
 });
 ``` 
 

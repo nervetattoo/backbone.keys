@@ -71,28 +71,38 @@
         // forwards any relevant key presses
         _triggerKey : function(e) {
             _(this._keyEventBindings[e.which]).each(function(listener) {
-                listener(e);
+                var trigger = true;
+                if (listener.modifiers) {
+                    trigger = _(listener.modifiers).all(function(modifier) {
+                        return e[modifier + 'Key'] === true;
+                    });
+                }
+                if (trigger) listener.method(e, listener.key);
             });
         },
 
         // Doing the real work of binding key events
-        _keyEvent : function(keys, method) {
+        _keyEvent : function(key, method) {
             // Should always turn into an array
-            if (_.isString(keys)) keys = keys.split(' ');
-
-            if (keys.length > 1) {
-                var l = keys.length;
+            if (_.isArray(key)) {
+                var l = key.length;
                 while (l--)
-                    this._keyEvent(keys[l], method);
+                    this._keyEvent(key[l], method);
                 return;
             }
 
-            var key = this._keyMap[keys[0].toLowerCase()];
+            var components = key.split(' ');
+            key = components.pop().toLowerCase();
+            var keyCode = this._keyMap[key];
 
-            if (!_(this._keyEventBindings).has(key))
-                this._keyEventBindings[key] = [];
+            if (!_(this._keyEventBindings).has(keyCode))
+                this._keyEventBindings[keyCode] = [];
 
-            this._keyEventBindings[key].push(_.bind(this[method], this));
+            this._keyEventBindings[keyCode].push({
+                key : key,
+                modifiers : (components || false),
+                method: _.bind(this[method], this)
+            });
         },
 
         // Map keyname to keycode
@@ -106,6 +116,7 @@
             shift: 16,
             ctrl: 17,
             alt: 18,
+            meta: 91,
 
             // Modal
             caps_lock: 20,
