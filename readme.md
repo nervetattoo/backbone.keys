@@ -32,8 +32,8 @@ Note that the API is highly in flux at the moment:
 
 ## Download & Include ##
 
-* [Development](https://raw.github.com/nervetattoo/backbone.touch/master/backbone.touch.js)
-* [Production](https://raw.github.com/nervetattoo/backbone.touch/master/dist/backbone.touch.min.js)
+* [Development](https://raw.github.com/nervetattoo/backbone.keys/master/backbone.keys.js)
+* [Production](https://raw.github.com/nervetattoo/backbone.keys/master/dist/backbone.keys.min.js)
 
 Depends on Underscore, Backbone and an underlying DOM library that handles event bindings.
 
