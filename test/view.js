@@ -2,7 +2,10 @@ View = Backbone.View.extend({
     bindKeysScoped : false,
 
     keys : {
-        'navigate' : ['shift left', 'right', 'up', 'down']
+        'left+shift' : 'navigate',
+        'left+shift right up down' : function(e) {
+            console.log(this._keyEventBindings);
+        }
     },
 
     navigate : function(e, name) {
