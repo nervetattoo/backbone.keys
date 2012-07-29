@@ -8,8 +8,6 @@
     var _ = this._;
     var document = this.document;
     var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
-    var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l',
-        'm','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
     // Map keyname to keycode
     var BackboneKeysMap = {
@@ -27,6 +25,7 @@
         // Modal
         caps_lock: 20,
         esc: 27,
+        num_lock: 144,
 
         // Navigation
         page_up: 33,
@@ -42,18 +41,6 @@
         insert: 45,
         'delete': 46,
 
-        // Numerics
-        0: 48,
-        1: 49,
-        2: 50,
-        3: 51,
-        4: 52,
-        5: 53,
-        6: 54,
-        7: 55,
-        8: 56,
-        9: 57,
-
         // F keys
         f1: 112,
         f2: 113,
@@ -66,13 +53,15 @@
         f9: 120,
         f10: 121,
         f11: 122,
-        f12: 123,
-
-        num_lock: 144
+        f12: 123
     };
 
-    _(alphabet).each(function(name, offset) {
-        BackboneKeysMap[name] = 65 + offset;
+    // Aliased names to make sense on several platforms
+    _.each({
+        'options' : 'alt',
+        'return': 'enter'
+    }, function(real, alias) {
+        BackboneKeysMap[alias] = BackboneKeysMap[real];
     });
 
 
@@ -130,7 +119,7 @@
             var keyName;
             for (keyName in BackboneKeysMap)
                 if (BackboneKeysMap[keyName] === keyCode) return keyName;
-            return null;
+            return String.fromCharCode(keyCode);
         },
 
         // Internal real listener for key events that
@@ -162,9 +151,10 @@
             var components = key.split('+');
             key = components.shift();
 
-            var keyCode = BackboneKeysMap[key];
+            var keyCode = (key.length === 1) ? 
+                key.toUpperCase().charCodeAt(0) : BackboneKeysMap[key];
 
-            if (!_(this._keyEventBindings).has(keyCode))
+            if (!this._keyEventBindings.hasOwnProperty(keyCode))
                 this._keyEventBindings[keyCode] = [];
 
             if (!_.isFunction(method))

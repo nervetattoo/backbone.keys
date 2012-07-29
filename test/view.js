@@ -1,16 +1,28 @@
 View = Backbone.View.extend({
-    bindKeysScoped : false,
-
     keys : {
-        'left+shift' : 'navigate',
-        'left+shift right up down' : function(e) {
-            console.log(this._keyEventBindings);
-        }
+        'x' : function(e) {
+            return this.log('You typed x, lol');
+        },
+        'esc' : 'clear',
+        'return' : 'submit'
     },
 
-    navigate : function(e, name) {
-        this.$el.append(
-            this.make('li', {}, name)
+    submit : function(e) {
+        this.log(
+            'Submitted: ' + this.$('#text').val()
         );
+        return this;
+    },
+
+    clear : function(e) {
+        this.$('#text').val('');
+        return this;
+    },
+
+    log : function(msg) {
+        this.$('#log').append(
+            this.make('p', {}, msg)
+        );
+        return this;
     }
 });
