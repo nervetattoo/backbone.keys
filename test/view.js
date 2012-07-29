@@ -7,6 +7,10 @@ View = Backbone.View.extend({
         'return' : 'submit'
     },
 
+    render : function() {
+        this.keyOff('esc', 'clear');
+    },
+
     submit : function(e) {
         this.log(
             'Submitted: ' + this.$('#text').val()

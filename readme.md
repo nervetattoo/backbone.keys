@@ -25,6 +25,20 @@ MyView = Backbone.View.extend({
 });
 ``` 
 
+### Manually binding and unbinding ###
+
+You can bind and unbind events manually:
+
+```js
+this.keyOn('return', this.onEnter);
+
+this.keyOff('return', this.onEnter);
+// Unbind all for key
+this.keyOff('return');
+// Unbind all
+this.keyOff();
+```
+
 Note that the API is highly in flux at the moment:
 
 ## Download & Include ##
@@ -47,3 +61,8 @@ included.
 
 Note that backbone.keys currently overwrites `Backbone.View` to make its usage
 a no-op, part from including it.
+
+## License
+
+[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+(c) [Raymond Julin](http://github.com/nervetattoo)

@@ -8,6 +8,10 @@
     var _ = this._;
     var document = this.document;
     var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
+    var getKeyCode = function(key) {
+        return (key.length === 1) ?
+            key.toUpperCase().charCodeAt(0) : BackboneKeysMap[key];
+    };
 
     // Map keyname to keycode
     var BackboneKeysMap = {
@@ -96,7 +100,10 @@
             this.undelegateKeys();
             keys = keys || (this.keys);
             if (keys) {
-                _(keys).each(_.bind(this._keyEvent, this));
+                _.each(keys, function(method, key) {
+                    this.keyOn(key, method);
+                }, this);
+                // Bind to DOM element in order to forward key events
                 if (this.bindKeysScoped) {
                     var events = {};
                     events[this.bindKeysOn] = this._triggerKey;
@@ -137,12 +144,12 @@
         },
 
         // Doing the real work of binding key events
-        _keyEvent : function(method, key) {
+        keyOn : function(key, method) {
             key = key.split(' ');
             if (key.length > 1) {
                 var l = key.length;
                 while (l--)
-                    this._keyEvent(method, key[l]);
+                    this.keyOn(key[l], method);
                 return;
             }
             else key = key.pop().toLowerCase();
@@ -151,8 +158,7 @@
             var components = key.split('+');
             key = components.shift();
 
-            var keyCode = (key.length === 1) ? 
-                key.toUpperCase().charCodeAt(0) : BackboneKeysMap[key];
+            var keyCode = getKeyCode(key);
 
             if (!this._keyEventBindings.hasOwnProperty(keyCode))
                 this._keyEventBindings[keyCode] = [];
@@ -165,6 +171,27 @@
                 modifiers : (components || false),
                 method: _.bind(method, this)
             });
+        },
+
+        keyOff : function(key, method) {
+            method = (method || false);
+            if (key === null) {
+                this._keyEventBindings = {};
+                return this;
+            }
+            var keyCode = getKeyCode(key);
+            if (!_.isFunction(method)) method = this[method];
+            if (!method) {
+                this._keyEventBindings[keyCode] = [];
+                return this;
+            }
+            this._keyEventBindings[keyCode] = _.filter(
+                this._keyEventBindings[keyCode],
+                function(data, index) {
+                    return data.method === method;
+                }
+            );
+            return this;
         }
     });
 }).call(this);
