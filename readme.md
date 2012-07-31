@@ -1,10 +1,7 @@
 Backbone.keys beta
 =============================
 
-Created by Raymond Julin [@nervetattoo](http://twitter.com/nervetattoo)
-
-A drop in replacement for Backbone.View that makes it easy to add
-keyboard support in your views.
+Easily add keyboard support in your Backbone views
 
 ## Usage ##
 
@@ -65,4 +62,4 @@ a no-op, part from including it.
 ## License
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
-(c) [Raymond Julin](http://github.com/nervetattoo)
+(c) [Raymond Julin](http://twitter.com/nervetattoo)
