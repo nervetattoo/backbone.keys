@@ -106,11 +106,11 @@
                 // Bind to DOM element in order to forward key events
                 if (this.bindKeysScoped) {
                     var events = {};
-                    events[this.bindKeysOn] = this._triggerKey;
+                    events[this.bindKeysOn] = this.triggerKey;
                     oldDelegateEvents.apply(this, this.delegateKeys);
                 }
                 else {
-                    Backbone.$(document).bind(this.bindKeysOn, _.bind(this._triggerKey, this));
+                    Backbone.$(document).bind(this.bindKeysOn, _.bind(this.triggerKey, this));
                 }
             }
         },
@@ -131,8 +131,13 @@
 
         // Internal real listener for key events that
         // forwards any relevant key presses
-        _triggerKey : function(e) {
-            _(this._keyEventBindings[e.which]).each(function(listener) {
+        triggerKey : function(e) {
+            var key;
+            if (_.isObject(e)) key = e.which;
+            else if (_.isString(e)) key = getKeyCode(e);
+            else if (_.isNumber(e)) key = e;
+
+            _(this._keyEventBindings[key]).each(function(listener) {
                 var trigger = true;
                 if (listener.modifiers) {
                     trigger = _(listener.modifiers).all(function(modifier) {
