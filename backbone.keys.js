@@ -7,6 +7,7 @@
     var Backbone = this.Backbone;
     var _ = this._;
     var document = this.document;
+    var $ = this.$;
     var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
     var getKeyCode = function(key) {
         return (key.length === 1) ?
@@ -103,15 +104,10 @@
                 _.each(keys, function(method, key) {
                     this.keyOn(key, method);
                 }, this);
+
                 // Bind to DOM element in order to forward key events
-                if (this.bindKeysScoped) {
-                    var events = {};
-                    events[this.bindKeysOn] = this.triggerKey;
-                    oldDelegateEvents.apply(this, this.delegateKeys);
-                }
-                else {
-                    Backbone.$(document).bind(this.bindKeysOn, _.bind(this.triggerKey, this));
-                }
+                var bindTo = this.bindKeysScoped ? this.$el : $(document);
+                bindTo.on(this.bindKeysOn, _.bind(this.triggerKey, this));
             }
         },
 
