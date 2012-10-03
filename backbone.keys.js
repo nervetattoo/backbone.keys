@@ -90,7 +90,7 @@
         // Override delegate events
         delegateEvents : function(events) {
             // First delegate original events
-            oldDelegateEvents.apply(this, events);
+            oldDelegateEvents.apply(this, (events || []));
 
             // Now delegate keys
             this.delegateKeys();
@@ -104,9 +104,8 @@
                 _.each(keys, function(method, key) {
                     this.keyOn(key, method);
                 }, this);
-
                 // Bind to DOM element in order to forward key events
-                var bindTo = this.bindKeysScoped ? this.$el : $(document);
+                var bindTo = (this.bindKeysScoped || typeof $ === "undefined") ? this.$el : $(document);
                 bindTo.on(this.bindKeysOn, _.bind(this.triggerKey, this));
             }
         },
