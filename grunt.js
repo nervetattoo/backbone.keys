@@ -36,7 +36,7 @@ module.exports = function(grunt) {
         eqnull: true,
         node: true
       },
-      globals: {}
+      globals: {define:true,_:true,Backbone:true}
     }
   });
 

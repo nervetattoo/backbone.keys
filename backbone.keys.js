@@ -2,10 +2,16 @@
 
 //     (c) 2012 Raymond Julin, Keyteq AS
 //     Backbone.keys may be freely distributed under the MIT license.
-(function() {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['underscore', 'backbone'], factory);
+    } else {
+        // Browser globals
+        factory(_, Backbone);
+    }
+}(function (_, Backbone) {
     // Alias the libraries from the global object
-    var Backbone = this.Backbone;
-    var _ = this._;
     var document = this.document;
     var $ = this.$;
     var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
@@ -194,4 +200,6 @@
             return this;
         }
     });
-}).call(this);
+
+    return Backbone;
+}));
