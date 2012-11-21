@@ -3,11 +3,10 @@ View = Backbone.View.extend({
         "click :checkbox" : function(e) {
             var target = $(e.currentTarget);
             var key = target.attr('target');
-            console.log(target.is(':checked'));
             if (target.is(':checked'))
-                this.keyOff(key);
-            else
                 this.keyOn(key, this.keys[key]);
+            else
+                this.keyOff(key);
             return this;
         }
     },
