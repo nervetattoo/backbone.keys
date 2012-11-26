@@ -1,5 +1,5 @@
-Backbone.keys beta
-=============================
+Backbone.keys
+=============
 
 Easily add keyboard support in your Backbone views
 
