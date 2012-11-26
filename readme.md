@@ -40,6 +40,12 @@ Note that the API is highly in flux at the moment:
 
 ## Download & Include ##
 
+### Bower install
+
+`bower install backbone.keys`
+
+### Manual download
+
 * [Development](https://raw.github.com/nervetattoo/backbone.keys/master/backbone.keys.js)
 * [Production](https://raw.github.com/nervetattoo/backbone.keys/master/dist/backbone.keys.min.js)
 
