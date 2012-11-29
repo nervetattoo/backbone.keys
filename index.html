@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Backbone.keys by nervetattoo</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/nervetattoo/backbone.keys">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/nervetattoo/backbone.keys/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/nervetattoo/backbone.keys/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Backbone.keys</h1>
+          <p>Bring the keyboard to your backbone views</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/nervetattoo">nervetattoo</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Backbone.keys</h1>
+
+<p>Easily add keyboard support in your Backbone views</p>
+
+<h2>Usage</h2>
+
+<p>Backbone.keys is made to work with your existing views.
+To add arrow navigation to your app simply do:</p>
+
+<div class="highlight"><pre><span class="nx">MyView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">keys</span> <span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'a+shift'</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{},</span>
+        <span class="s1">'left right up down'</span><span class="o">:</span> <span class="s1">'onNavigate'</span>
+    <span class="p">},</span>
+
+    <span class="c1">// The name variable is the name of the pressed key</span>
+    <span class="c1">// (a in this case)</span>
+    <span class="nx">onNavigate</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>Manually binding and unbinding</h3>
+
+<p>You can bind and unbind events manually:</p>
+
+<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">keyOn</span><span class="p">(</span><span class="s1">'return'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">onEnter</span><span class="p">);</span>
+
+<span class="k">this</span><span class="p">.</span><span class="nx">keyOff</span><span class="p">(</span><span class="s1">'return'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">onEnter</span><span class="p">);</span>
+<span class="c1">// Unbind all for key</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">keyOff</span><span class="p">(</span><span class="s1">'return'</span><span class="p">);</span>
+<span class="c1">// Unbind all</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">keyOff</span><span class="p">();</span>
+</pre></div>
+
+<p>Note that the API is highly in flux at the moment:</p>
+
+<h2>Download &amp; Include</h2>
+
+<h3>Bower install</h3>
+
+<p><code>bower install backbone.keys</code></p>
+
+<h3>Manual download</h3>
+
+<ul>
+<li><a href="https://raw.github.com/nervetattoo/backbone.keys/master/backbone.keys.js">Development</a></li>
+<li><a href="https://raw.github.com/nervetattoo/backbone.keys/master/dist/backbone.keys.min.js">Production</a></li>
+</ul><p>Depends on Underscore, Backbone and an underlying DOM library that handles event bindings.</p>
+
+<p>Include in your application <em>after</em> DOM library, Underscore, and Backbone have been
+included.</p>
+
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/js/jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/js/underscore.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/js/backbone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/js/backbone.keys.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>Note that backbone.keys currently overwrites <code>Backbone.View</code> to make its usage
+a no-op, part from including it.</p>
+
+<h2>License</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a>
+(c) <a href="http://twitter.com/nervetattoo">Raymond Julin</a></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-7868401-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
