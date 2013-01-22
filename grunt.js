@@ -1,46 +1,48 @@
 module.exports = function(grunt) {
 
-  grunt.initConfig({
-    meta: {
-      banner: "/*!\n" + " * backbone.keys.js v0.1\n" +
-        " * Copyright 2012, Raymond Julin (@nervetattoo)\n" +
-        " * backbone.keys.js may be freely distributed under" +
-        " the MIT license.\n */"
-    },
+    "use strict";
 
-    lint: {
-      files: ["grunt.js", "backbone.keys.js"]
-    },
+    grunt.initConfig({
+        meta: {
+            banner: "/*!\n" + " * backbone.keys.js v0.1\n" +
+            " * Copyright 2012, Raymond Julin (@nervetattoo)\n" +
+            " * backbone.keys.js may be freely distributed under" +
+            " the MIT license.\n */"
+        },
 
-    min: {
-      "dist/backbone.keys.min.js": ["<banner>",
-        "backbone.keys.js"]
-    },
+        lint: {
+            files: ["grunt.js", "backbone.keys.js"]
+        },
 
-    watch: {
-      files: "<config:lint.files>",
-      tasks: "lint"
-    },
+        min: {
+            "dist/backbone.keys.min.js": ["<banner>",
+            "backbone.keys.js"]
+        },
 
-    jshint: {
-      options: {
-        boss: true,
-        curly: false,
-        eqeqeq: true,
-        immed: false,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        eqnull: true,
-        node: true
-      },
-      globals: {define:true,_:true,Backbone:true}
-    }
-  });
+        watch: {
+            files: "<config:lint.files>",
+            tasks: "lint"
+        },
 
-  // Default task.
-  grunt.registerTask("default", "lint min");
+        jshint: {
+            options: {
+                boss: true,
+                curly: false,
+                eqeqeq: true,
+                immed: false,
+                latedef: true,
+                newcap: true,
+                noarg: true,
+                sub: true,
+                undef: true,
+                eqnull: true,
+                node: true
+            },
+            globals: {define:true,_:true,Backbone:true,$:true,document:true}
+        }
+    });
+
+    // Default task.
+    grunt.registerTask("default", "lint min");
 
 };

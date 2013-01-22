@@ -3,18 +3,21 @@
 //     (c) 2012 Raymond Julin, Keyteq AS
 //     Backbone.keys may be freely distributed under the MIT license.
 (function (factory) {
+    "use strict";
+
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['underscore', 'backbone'], factory);
+        define(['underscore', 'backbone', 'jquery'], factory);
     } else {
         // Browser globals
-        factory(_, Backbone);
+        factory(_, Backbone, $);
     }
-}(function (_, Backbone) {
+}(function (_, Backbone, $) {
+    "use strict";
+
     // Alias the libraries from the global object
-    var document = this.document;
-    var $ = this.$;
     var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
+    var oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
     var getKeyCode = function(key) {
         return (key.length === 1) ?
             key.toUpperCase().charCodeAt(0) : BackboneKeysMap[key];
@@ -90,29 +93,40 @@
         // But users should be able to choose themselves
         bindKeysScoped : false,
 
+        // The actual element to bind events to
+        bindTo : null,
+
         // Hash of bound listeners
         _keyEventBindings : null,
 
         // Override delegate events
-        delegateEvents : function(events) {
-            // First delegate original events
-            oldDelegateEvents.apply(this, (events || []));
-
-            // Now delegate keys
+        delegateEvents : function() {
+            oldDelegateEvents.apply(this, arguments);
             this.delegateKeys();
+        },
+
+        // Clears all callbacks previously bound to the view with `delegateEvents`.
+        // You usually don't need to use this, but may wish to if you have multiple
+        // Backbone views attached to the same DOM element.
+        undelegateEvents: function() {
+            this.undelegateKeys();
+            oldUndelegateEvents.apply(this, arguments);
         },
 
         // Actual delegate keys
         delegateKeys : function(keys) {
             this.undelegateKeys();
+
+            if (!this.bindTo) {
+                this.bindTo = (this.bindKeysScoped || typeof $ === "undefined") ? this.$el : $(document);
+            }
+            this.bindTo.on(this.bindKeysOn, _.bind(this.triggerKey, this));
+
             keys = keys || (this.keys);
             if (keys) {
                 _.each(keys, function(method, key) {
                     this.keyOn(key, method);
                 }, this);
-                // Bind to DOM element in order to forward key events
-                var bindTo = (this.bindKeysScoped || typeof $ === "undefined") ? this.$el : $(document);
-                bindTo.on(this.bindKeysOn, _.bind(this.triggerKey, this));
             }
         },
 
@@ -166,17 +180,18 @@
 
             var keyCode = getKeyCode(key);
 
-            if (!this._keyEventBindings.hasOwnProperty(keyCode))
+            if (!this._keyEventBindings.hasOwnProperty(keyCode)) {
                 this._keyEventBindings[keyCode] = [];
+            }
 
-            if (!_.isFunction(method))
-                method = this[method];
+            if (!_.isFunction(method)) method = this[method];
 
             this._keyEventBindings[keyCode].push({
                 key : key,
                 modifiers : (components || false),
                 method: _.bind(method, this)
             });
+            return this;
         },
 
         keyOff : function(key, method) {
