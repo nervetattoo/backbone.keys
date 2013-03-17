@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Backbone.keys Test</title>
+        <script>
+            requirejs = {
+                paths : {
+                    underscore : 'vendor/underscore',
+                    backbone : 'vendor/backbone',
+                    jquery: 'vendor/jquery',
+                },
+                shim : {
+                    underscore: {
+                        exports: '_'
+                    },
+                    backbone: {
+                        exports: 'Backbone',
+                        deps: ['underscore']
+                    }
+                }
+            };
+        </script>
+        <script src="vendor/jquery.js"></script>
+        <script src="vendor/underscore.js"></script>
+        <script src="vendor/backbone.js"></script>
+        <script src="vendor/require.js"></script>
+        <script src="vendor/backbone.marionette.js"></script>
+
+    </head>
+    <body>
+        <h1>Backbone.keys Test</h1>
+
+        <p></p>
+
+        <div id="view" data-on=true>
+            <input type="text" id="text" autofocus />
+            <label>
+                Clear
+                <input type="checkbox" checked target="key" />
+            </label>
+            <label>
+                Send
+                <input type="checkbox" checked target="return" />
+            </label>
+            <div id="log"></div>
+        </div>
+
+        <script src="marionette.view.js"></script>
+        <script type="text/javascript">
+            require(['../backbone.keys'], function(Backbone) {
+                var view = new MarionetteView({
+                    el : $('#view')
+                }).render();
+            });
+        </script>
+    </body>
+</html>
