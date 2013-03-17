@@ -35,9 +35,7 @@ View = Backbone.View.extend({
     },
 
     log : function(msg) {
-        this.$('#log').append(
-            this.make('p', {}, msg)
-        );
+        this.$('#log').append('<p>' + msg + '</p>');
         return this;
     }
 });
