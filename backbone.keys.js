@@ -120,7 +120,7 @@
             if (!this.bindTo) {
                 this.bindTo = (this.bindKeysScoped || typeof $ === "undefined") ? this.$el : $(document);
             }
-            this.bindTo.on(this.bindKeysOn, _.bind(this.triggerKey, this));
+            this.bindTo.on(this.bindKeysOn + '.delegateKeys' + this.cid, _.bind(this.triggerKey, this));
 
             keys = keys || (this.keys);
             if (keys) {
@@ -133,6 +133,9 @@
         // Undelegate keys
         undelegateKeys : function() {
             this._keyEventBindings = {};
+            if (this.bindTo) {
+                this.bindTo.off(this.bindKeysOn + '.delegateKeys' + this.cid);
+            }
         },
 
         // Utility to get the name of a key
