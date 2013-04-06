@@ -17,8 +17,31 @@ module.exports = function(grunt) {
             }
         },
 
+        connect: {
+            server: {
+                options: {
+                    port: 9090
+                }
+            }
+        },
+
+        jasmine: {
+            lib: {
+                src: 'backbone.keys.js',
+                options: {
+                    host: 'http://localhost:9090/',
+                    vendor: [
+                        'test/vendor/underscore.js',
+                        'test/vendor/jquery.js',
+                        'test/vendor/backbone.js'
+                    ],
+                    specs: 'spec/*spec.js'
+                }
+            }
+        },
+
         jshint: {
-            files: ["grunt.js", "backbone.keys.js"],
+            files: ["grunt.js", "backbone.keys.js", "spec/*.js"],
             options: {
                 boss: true,
                 curly: false,
@@ -32,11 +55,10 @@ module.exports = function(grunt) {
                 eqnull: true,
                 node: true,
                 globals: {
-                    define:true,
-                    _:true,
-                    Backbone:true,
-                    $:true,
-                    document:true
+                    _:true, $:true,
+                    it:true, spyOn:true, describe:true,
+                    expect: true, beforeEach: true,
+                    define:true, Backbone:true, document:true
                 }
             }
         }
@@ -44,5 +66,9 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['jshint', 'uglify']);
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+
+    grunt.registerTask('test', ['connect', 'jasmine']);
+    grunt.registerTask('default', ['jshint', 'test', 'uglify']);
 };
