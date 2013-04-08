@@ -1,19 +1,21 @@
 module.exports = function(grunt) {
 
-    "use strict";
+    'use strict';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        meta: {
-            banner: "/*!\n" + " * <%= pkg.name %> v<%= pkg.version %>\n" +
-            " * Copyright 2012, Raymond Julin (@nervetattoo)\n" +
-            " * backbone.keys.js may be freely distributed under" +
-            " the MIT license.\n */"
-        },
 
         uglify: {
             lib: {
-                "dist/backbone.keys.min.js": "backbone.keys.js"
+                files: {
+                    'dist/backbone.keys.min.js': ['backbone.keys.js']
+                },
+                options: {
+                    banner: '/*!\n' + ' * <%= pkg.name %>.js v<%= pkg.version %>\n' +
+                    ' * Copyright 2012, Raymond Julin (@nervetattoo)\n' +
+                    ' * backbone.keys.js may be freely distributed under' +
+                    ' the MIT license.\n */'
+                }
             }
         },
 
@@ -41,7 +43,7 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            files: ["grunt.js", "backbone.keys.js", "spec/*.js"],
+            files: ['grunt.js', 'backbone.keys.js', 'spec/*.js'],
             options: {
                 boss: true,
                 curly: false,
