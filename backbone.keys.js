@@ -112,6 +112,7 @@
         undelegateEvents: function() {
             this.undelegateKeys();
             oldUndelegateEvents.apply(this, arguments);
+            return this;
         },
 
         // Actual delegate keys
@@ -129,6 +130,7 @@
                     this.keyOn(key, method);
                 }, this);
             }
+            return this;
         },
 
         // Undelegate keys
@@ -137,6 +139,7 @@
             if (this.bindTo) {
                 this.bindTo.off(this.bindKeysOn + '.delegateKeys' + this.cid);
             }
+            return this;
         },
 
         // Utility to get the name of a key
@@ -165,6 +168,7 @@
                 }
                 if (trigger) listener.method(e, listener.key);
             });
+            return this;
         },
 
         // Doing the real work of binding key events

@@ -2,9 +2,8 @@ describe('Test Backbone.keys', function() {
     var View = Backbone.View.extend({
         initialize: function(options) {
             options = options || {};
-            _.extend(this, _.pick(options, 'keys', 'bindKeysScoped'));
+            _.extend(this, options);
         },
-        noop: function(){},
         render: function() {
             this.$el.append('<input type="text" />');
             return this;
@@ -14,6 +13,7 @@ describe('Test Backbone.keys', function() {
     beforeEach(function() {
         this.view = new View({
             bindKeysScoped: true,
+            noop: function(){},
             keys: {
                 'enter': 'noop'
             }
@@ -22,19 +22,23 @@ describe('Test Backbone.keys', function() {
 
     it('responds to key events', function() {
         spyOn(this.view, 'noop');
-        this.view.delegateEvents();
-        this.view.$('input').trigger(
-            $.Event('keydown', {which: 13})
-        );
+        this.view
+            .delegateEvents()
+            .$('input').trigger($.Event('keydown', {which: 13}));
         expect(this.view.noop).toHaveBeenCalled();
     });
 
     it('does not respond to other keys than specified', function() {
         spyOn(this.view, 'noop');
-        this.view.delegateEvents();
-        this.view.$('input').trigger(
-            $.Event('keydown', {which: 12})
-        );
+        this.view
+            .delegateEvents()
+            .$('input').trigger($.Event('keydown', {which: 12}));
         expect(this.view.noop).not.toHaveBeenCalled();
+    });
+
+    it('delegateEvents delegates custom events', function() {
+        spyOn(this.view, 'noop');
+        this.view.delegateEvents({'focus input' : 'noop'}).$('input').focus();
+        expect(this.view.noop).toHaveBeenCalled();
     });
 });
