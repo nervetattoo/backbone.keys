@@ -101,8 +101,9 @@
 
         // Override delegate events
         delegateEvents : function() {
-            oldDelegateEvents.apply(this, arguments);
+            oldDelegateEvents.apply(this, Array.prototype.slice.apply(arguments));
             this.delegateKeys();
+            return this;
         },
 
         // Clears all callbacks previously bound to the view with `delegateEvents`.
